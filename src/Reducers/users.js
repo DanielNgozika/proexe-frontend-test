@@ -21,6 +21,17 @@ export default function users(state = initialState, action) {
 				...state,
 				users: action.payload
 			};
+		case CREATE_USER:
+			const newState = {
+				...state,
+				users: [...state.users, action.payload]
+			};
+
+			localStorage.setItem(
+				"proexe-users",
+				JSON.stringify(newState.users)
+			);
+			return newState;
 		default:
 			return state;
 	}

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Heading } from "@chakra-ui/react";
 import Dashboard from "./Components/dashboard";
+import AddNewForm from "./Components/userForm";
 
 function App() {
 	return (
@@ -10,6 +11,7 @@ function App() {
 			</Heading>
 			<Routes>
 				<Route path="/" element={<Dashboard />} />
+				<Route path="/new" element={<AddNewForm />} />
 			</Routes>
 		</BrowserRouter>
 	);

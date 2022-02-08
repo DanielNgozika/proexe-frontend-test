@@ -12,13 +12,14 @@ import {
 	Flex
 } from "@chakra-ui/react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { getUsers } from "../Actions/users";
 
 const Dashboard = ({ getUsers, users }) => {
 	useEffect(() => {
 		getUsers();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [!users]);
 
 	return (
 		<Box
@@ -35,7 +36,9 @@ const Dashboard = ({ getUsers, users }) => {
 				alignItems="center"
 			>
 				<Text fontWeight="bold">User list</Text>
-				<Button colorScheme="blue">Add new</Button>
+				<Button colorScheme="blue">
+					<Link to="/new">Add new</Link>
+				</Button>
 			</Flex>
 			<Table variant="striped">
 				<Thead>
@@ -56,7 +59,7 @@ const Dashboard = ({ getUsers, users }) => {
 							<Td>{user.name}</Td>
 							<Td>{user.username}</Td>
 							<Td>{user.email}</Td>
-							<Td>{user.address.city}</Td>
+							<Td>{user.address?.city}</Td>
 							<Td>
 								<Button colorScheme="orange">Edit</Button>
 							</Td>
