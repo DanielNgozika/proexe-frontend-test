@@ -49,44 +49,51 @@ const Dashboard = ({ getUsers, users, deleteUser }) => {
 					<Link to="/new">Add new</Link>
 				</Button>
 			</Flex>
-			<Table variant="striped">
-				<Thead>
-					<Tr>
-						<Th>id</Th>
-						<Th>Name</Th>
-						<Th>Username</Th>
-						<Th>Email</Th>
-						<Th>City</Th>
-						<Th>Edit</Th>
-						<Th>Delete</Th>
-					</Tr>
-				</Thead>
-				<Tbody>
-					{users?.map((user) => (
-						<Tr key={user.id}>
-							<Td>{user.id}</Td>
-							<Td>{user.name}</Td>
-							<Td>{user.username}</Td>
-							<Td>{user.email}</Td>
-							<Td>{user.address?.city}</Td>
-							<Td>
-								<Button colorScheme="orange">Edit</Button>
-							</Td>
-							<Td>
-								<Button
-									colorScheme="red"
-									onClick={() => {
-										onOpen();
-										setToBeDeleted(user.id);
-									}}
-								>
-									Delete
-								</Button>
-							</Td>
+			{users.length > 0 && (
+				<Table variant="striped">
+					<Thead>
+						<Tr>
+							<Th>id</Th>
+							<Th>Name</Th>
+							<Th>Username</Th>
+							<Th>Email</Th>
+							<Th>City</Th>
+							<Th>Edit</Th>
+							<Th>Delete</Th>
 						</Tr>
-					))}
-				</Tbody>
-			</Table>
+					</Thead>
+					<Tbody>
+						{users?.map((user) => (
+							<Tr key={user.id}>
+								<Td>{user.id}</Td>
+								<Td>{user.name}</Td>
+								<Td>{user.username}</Td>
+								<Td>{user.email}</Td>
+								<Td>{user.address?.city}</Td>
+								<Td>
+									<Button colorScheme="orange">Edit</Button>
+								</Td>
+								<Td>
+									<Button
+										colorScheme="red"
+										onClick={() => {
+											onOpen();
+											setToBeDeleted(user.id);
+										}}
+									>
+										Delete
+									</Button>
+								</Td>
+							</Tr>
+						))}
+					</Tbody>
+				</Table>
+			)}
+			{!users.length && (
+				<Text textAlign="center" mb={3}>
+					No users.
+				</Text>
+			)}
 
 			{/* delete modal */}
 			<Modal isOpen={isOpen} onClose={onClose} isCentered>
