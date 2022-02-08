@@ -1,4 +1,5 @@
 import { API } from "../constants";
+import { GET_USERS, CREATE_USER } from "./types";
 
 export const getUsers = async (dispatch) => {
 	try {
@@ -9,7 +10,7 @@ export const getUsers = async (dispatch) => {
 		}
 		const data = await request.json();
 		dispatch({
-			type: "GET_USERS",
+			type: GET_USERS,
 			payload: data
 		});
 	} catch (error) {

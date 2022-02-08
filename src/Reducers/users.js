@@ -1,3 +1,8 @@
+import {
+	GET_USERS,
+	CREATE_USER
+} from "../Actions/types";
+
 const initialState = {
 	// Get users from localStorage if available.
 	// Else, set default as empty array
@@ -6,7 +11,7 @@ const initialState = {
 
 export default function users(state = initialState, action) {
 	switch (action.type) {
-		case "GET_USERS":
+		case GET_USERS:
 			localStorage.setItem(
 				"proexe-users",
 				JSON.stringify(action.payload)
