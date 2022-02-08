@@ -28,13 +28,9 @@ export const createUser = async (dispatch, values) => {
 			const error = await request.json();
 			throw Error(error.error.message);
 		}
-		const data = await request.json();
 		dispatch({
 			type: CREATE_USER,
-			payload: {
-				...data,
-				...values
-			}
+			payload: values
 		});
 	} catch (error) {
 		console.log(`---create user error`, error);

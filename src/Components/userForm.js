@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { createUser, editUser } from "../Actions/users";
 
-const UserForm = ({ createUser, editUser }) => {
+const UserForm = ({ createUser, editUser, users }) => {
 	const navigate = useNavigate();
 	const { state } = useLocation();
 	const [name, setName] = useState(state?.user?.name || "");
@@ -28,7 +28,14 @@ const UserForm = ({ createUser, editUser }) => {
 			editUser({ id: state.user.id, name, email });
 			navigate("/");
 		} else {
-			createUser({ name, email });
+			createUser({
+				// Because the API always returns a new user with an id of 11,
+				// check the highest id in the users array and add 1 to it for
+				// the new user. This way, duplicate ids won't be created.
+				id: Math.max(...users.map((user) => +user.id)) + 1,
+				name,
+				email
+			});
 			navigate("/");
 		}
 	}
