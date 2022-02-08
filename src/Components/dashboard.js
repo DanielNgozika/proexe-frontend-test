@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
 	Table,
 	Thead,
@@ -9,13 +9,22 @@ import {
 	Box,
 	Text,
 	Button,
-	Flex
+	Flex,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	useDisclosure
 } from "@chakra-ui/react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUsers } from "../Actions/users";
+import { getUsers, deleteUser } from "../Actions/users";
 
-const Dashboard = ({ getUsers, users }) => {
+const Dashboard = ({ getUsers, users, deleteUser }) => {
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [toBeDeleted, setToBeDeleted] = useState(null);
 	useEffect(() => {
 		getUsers();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,12 +73,50 @@ const Dashboard = ({ getUsers, users }) => {
 								<Button colorScheme="orange">Edit</Button>
 							</Td>
 							<Td>
-								<Button colorScheme="red">Delete</Button>
+								<Button
+									colorScheme="red"
+									onClick={() => {
+										onOpen();
+										setToBeDeleted(user.id);
+									}}
+								>
+									Delete
+								</Button>
 							</Td>
 						</Tr>
 					))}
 				</Tbody>
 			</Table>
+
+			{/* delete modal */}
+			<Modal isOpen={isOpen} onClose={onClose} isCentered>
+				<ModalOverlay opacity="0" />
+				<ModalContent>
+					<ModalHeader>Delete</ModalHeader>
+					<ModalBody>
+						Are you sure you want to delete this user?
+					</ModalBody>
+
+					<ModalFooter>
+						<Button
+							colorScheme="blackAlpha"
+							mr={3}
+							onClick={onClose}
+						>
+							Cancel
+						</Button>
+						<Button
+							colorScheme="red"
+							onClick={() => {
+								deleteUser(toBeDeleted);
+								onClose();
+							}}
+						>
+							Delete
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</Box>
 	);
 };
@@ -84,7 +131,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		//Pass the dispatch function as an argument to the getUsers action
 		// so you can call it asynchronously in the action.
-		getUsers: () => getUsers(dispatch)
+		getUsers: () => getUsers(dispatch),
+		deleteUser: (id) => deleteUser(dispatch, id)
 	};
 }
 

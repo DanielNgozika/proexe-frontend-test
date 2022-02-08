@@ -1,7 +1,4 @@
-import {
-	GET_USERS,
-	CREATE_USER
-} from "../Actions/types";
+import { GET_USERS, CREATE_USER, DELETE_USER } from "../Actions/types";
 
 const initialState = {
 	// Get users from localStorage if available.
@@ -32,6 +29,16 @@ export default function users(state = initialState, action) {
 				JSON.stringify(newState.users)
 			);
 			return newState;
+		case DELETE_USER:
+			const filteredUsers = state.users.filter(
+				(user) => user.id !== action.payload
+			);
+			localStorage.setItem("proexe-users", JSON.stringify(filteredUsers));
+
+			return {
+				...state,
+				users: filteredUsers
+			};
 		default:
 			return state;
 	}

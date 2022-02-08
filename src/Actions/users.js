@@ -1,5 +1,5 @@
 import { API } from "../constants";
-import { GET_USERS, CREATE_USER } from "./types";
+import { GET_USERS, CREATE_USER, DELETE_USER } from "./types";
 
 export const getUsers = async (dispatch) => {
 	try {
@@ -38,5 +38,25 @@ export const createUser = async (dispatch, values) => {
 		});
 	} catch (error) {
 		console.log(`---create user error`, error);
+	}
+};
+
+export const deleteUser = async (dispatch, id) => {
+	try {
+		const request = await fetch(API, {
+			// Using "GET" method because a "DELETE"
+			// method is not supported by the API.
+			method: "GET"
+		});
+		if (!request.ok) {
+			const error = await request.json();
+			throw Error(error.error.message);
+		}
+		dispatch({
+			type: DELETE_USER,
+			payload: id
+		});
+	} catch (error) {
+		console.log(`---delete user error`, error);
 	}
 };
