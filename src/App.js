@@ -11,7 +11,7 @@ function App() {
 			</Heading>
 			<Routes>
 				<Route path="/" element={<Dashboard />} />
-				<Route path="/new" element={<AddNewForm />} />
+				<Route path="/form" element={<AddNewForm />} />
 			</Routes>
 		</BrowserRouter>
 	);

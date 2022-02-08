@@ -1,5 +1,5 @@
 import { API } from "../constants";
-import { GET_USERS, CREATE_USER, DELETE_USER } from "./types";
+import { GET_USERS, CREATE_USER, DELETE_USER, EDIT_USER } from "./types";
 
 export const getUsers = async (dispatch) => {
 	try {
@@ -58,5 +58,27 @@ export const deleteUser = async (dispatch, id) => {
 		});
 	} catch (error) {
 		console.log(`---delete user error`, error);
+	}
+};
+
+export const editUser = async (dispatch, values) => {
+	try {
+		const request = await fetch(API, {
+			//using "POST" method because a "PUT"
+			// is not supported by the API.
+			method: "POST",
+			body: JSON.stringify(values)
+		});
+		if (!request.ok) {
+			const error = await request.json();
+			throw Error(error.error.message);
+		}
+
+		dispatch({
+			type: EDIT_USER,
+			payload: values
+		});
+	} catch (error) {
+		console.log(`---edit user error`, error);
 	}
 };

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import {
 	Box,
@@ -11,19 +11,26 @@ import {
 	Flex,
 	Button
 } from "@chakra-ui/react";
-import { createUser } from "../Actions/users";
+import { createUser, editUser } from "../Actions/users";
 
-const UserForm = ({ createUser }) => {
+const UserForm = ({ createUser, editUser }) => {
 	const navigate = useNavigate();
-	const [name, setName] = useState("");
+	const { state } = useLocation();
+	const [name, setName] = useState(state?.user?.name || "");
 	const isNameError = name === "";
 
-	const [email, setEmail] = useState("");
+	const [email, setEmail] = useState(state?.user?.email || "");
 	const isEmailError = email === "";
 
-	function handleSubmit() {
-		createUser({ name, email });
-		navigate("/");
+	function handleSubmit(e) {
+		e.preventDefault();
+		if (state?.user) {
+			editUser({ id: state.user.id, name, email });
+			navigate("/");
+		} else {
+			createUser({ name, email });
+			navigate("/");
+		}
 	}
 
 	return (
@@ -43,6 +50,7 @@ const UserForm = ({ createUser }) => {
 						id="name"
 						value={name}
 						onChange={(e) => setName(e.target.value)}
+						autoFocus
 					/>
 					{isNameError && (
 						<FormErrorMessage>Name is required</FormErrorMessage>
@@ -91,7 +99,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		//Pass the dispatch function as an argument to the createUser action
 		// so you can call it asynchronously in the action.
-		createUser: (args) => createUser(dispatch, args)
+		createUser: (args) => createUser(dispatch, args),
+		editUser: (args) => editUser(dispatch, args)
 	};
 }
 

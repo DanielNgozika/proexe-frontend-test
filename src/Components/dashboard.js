@@ -26,9 +26,14 @@ const Dashboard = ({ getUsers, users, deleteUser }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [toBeDeleted, setToBeDeleted] = useState(null);
 	useEffect(() => {
-		getUsers();
+		// since the API doesn't save new users and user edits,
+		// only fetch the users when the users array is empty.
+		// Otherwise, new local additions and edits will be overriden by the API.
+		if (users.length === 0) {
+			getUsers();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [!users]);
+	}, []);
 
 	return (
 		<Box
@@ -46,7 +51,16 @@ const Dashboard = ({ getUsers, users, deleteUser }) => {
 			>
 				<Text fontWeight="bold">User list</Text>
 				<Button colorScheme="blue">
-					<Link to="/new">Add new</Link>
+					<Link
+						to="/form"
+						style={{
+							height: "100%",
+							display: "flex",
+							alignItems: "center"
+						}}
+					>
+						Add new
+					</Link>
 				</Button>
 			</Flex>
 			{users.length > 0 && (
@@ -71,7 +85,21 @@ const Dashboard = ({ getUsers, users, deleteUser }) => {
 								<Td>{user.email}</Td>
 								<Td>{user.address?.city}</Td>
 								<Td>
-									<Button colorScheme="orange">Edit</Button>
+									<Button colorScheme="orange">
+										<Link
+											to="/form"
+											state={{
+												user: user
+											}}
+											style={{
+												height: "100%",
+												display: "flex",
+												alignItems: "center"
+											}}
+										>
+											Edit
+										</Link>
+									</Button>
 								</Td>
 								<Td>
 									<Button
