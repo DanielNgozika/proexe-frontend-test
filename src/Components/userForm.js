@@ -47,32 +47,56 @@ const UserForm = ({ createUser, editUser, users }) => {
 			borderWidth="1px"
 			borderRadius="lg"
 			boxShadow="xl"
+			paddingBottom="40px"
 			marginBottom="40px"
 		>
-			<form onSubmit={handleSubmit}>
-				<Text>Form</Text>
-				<FormControl isRequired isInvalid={isNameError}>
-					<FormLabel htmlFor="name">Name</FormLabel>
-					<Input
-						id="name"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-						autoFocus
-					/>
+			<Text fontSize="20px" fontWeight="bold" padding="20px">
+				Form
+			</Text>
+			<form
+				onSubmit={handleSubmit}
+				style={{ padding: "30px", borderTop: "1px solid grey" }}
+			>
+				<FormControl
+					isRequired
+					isInvalid={isNameError}
+					width="60%"
+					ml="auto"
+				>
+					<Flex>
+						<FormLabel htmlFor="name">Name</FormLabel>
+						<Input
+							id="name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							autoFocus
+						/>
+					</Flex>
 					{isNameError && (
-						<FormErrorMessage>Name is required</FormErrorMessage>
+						<FormErrorMessage mb={5} pl="60px">
+							Name is required
+						</FormErrorMessage>
 					)}
 				</FormControl>
-				<FormControl isRequired isInvalid={isEmailError}>
-					<FormLabel htmlFor="email">Email</FormLabel>
-					<Input
-						id="email"
-						value={email}
-						type="email"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
+				<FormControl
+					isRequired
+					isInvalid={isEmailError}
+					width="60%"
+					ml="auto"
+				>
+					<Flex>
+						<FormLabel htmlFor="email">Email</FormLabel>
+						<Input
+							id="email"
+							value={email}
+							type="email"
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</Flex>
 					{isEmailError && (
-						<FormErrorMessage>Email is required</FormErrorMessage>
+						<FormErrorMessage mb={5} pl="60px">
+							Email is required
+						</FormErrorMessage>
 					)}
 				</FormControl>
 				<Flex justifyContent="flex-end">
